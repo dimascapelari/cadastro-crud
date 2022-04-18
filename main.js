@@ -51,9 +51,16 @@ const saveClient = () => {
       celular: document.getElementById('celular').value,
       cidade: document.getElementById('cidade').value
     }
-    createClient(client)
-    updateTable()
-    closeModal()
+    const index = document.getElementById('nome').dataset.index
+    if (index == 'new') {
+      createClient(client)
+      updateTable()
+      closeModal()
+    } else {
+      updateClient(index, client)
+      updateTable()
+      closeModal()
+    }
   }
 }
 
@@ -83,21 +90,40 @@ const updateTable = () => {
   dbClient.forEach(createRow)
 }
 
+const fillFields = (client) => {
+  document.getElementById('nome').value = client.nome
+  document.getElementById('email').value = client.email
+  document.getElementById('celular').value = client.celular
+  document.getElementById('cidade').value = client.cidade
+  document.getElementById('nome').dataset.index = client.index
+}
+
+const editClient = (index) => {
+  const client = readClient()[index]
+  client.index = index
+  fillFields(client)
+  openModal()
+}
+
 const editDelete = (event) => {
   if (event.target.type == 'button') {
 
     const [action, index] = event.target.id.split('-')
 
     if (action == 'edit') {
-      console.log('editando o cliente')
+      editClient(index)
     } else {
-      console.log('deletando o cliente')
+      const client = readClient()[index]
+      const response = confirm(`Deseja realmente excliur Cliente ${client.nome}?`)
+      if (response) {
+        deleteClient(index)
+        updateTable()
+      }
     }
 
     //console.log(event.target.id.split('-'))
     //console.log(event.target.type)
   }
-
 }
 
 updateTable()
