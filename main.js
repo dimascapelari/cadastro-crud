@@ -52,6 +52,7 @@ const saveClient = () => {
       cidade: document.getElementById('cidade').value
     }
     createClient(client)
+    updateTable()
     closeModal()
   }
 }
