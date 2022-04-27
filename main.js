@@ -1,5 +1,10 @@
 'use strict'
 
+
+
+
+
+
 const openModal = () => document.getElementById('modal')
   .classList.add('active')
 
@@ -56,10 +61,12 @@ const saveClient = () => {
       createClient(client)
       updateTable()
       closeModal()
+      location.reload()
     } else {
       updateClient(index, client)
       updateTable()
       closeModal()
+      location.reload()
     }
   }
 }
@@ -118,6 +125,7 @@ const editDelete = (event) => {
       if (response) {
         deleteClient(index)
         updateTable()
+        location.reload()
       }
     }
 
@@ -140,3 +148,16 @@ document.getElementById('salvar')
 
 document.querySelector('#tableClient>tbody')
   .addEventListener('click', editDelete)
+
+
+let mensagemCadastro = document.getElementById('mensagem')
+let dados = localStorage.getItem('db_client')
+if (dados == null) {
+  mensagem.innerHTML = '&nbsp <strong><- Nenhum cliente cadastrado!</strong>'
+
+} else if (dados == '[]') {
+  mensagem.innerHTML = '&nbsp <strong><- Nenhum cliente cadastrado!</strong>'
+
+} else {
+  mensagem.innerHTML = ''
+}
